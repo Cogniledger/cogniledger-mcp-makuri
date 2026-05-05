@@ -24,7 +24,7 @@
     "test:smoke": "node scripts/test-client.mjs http://localhost:3000/mcp"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.26.0",
+    "@modelcontextprotocol/sdk": "1.29.0",
     "mcp-handler": "1.1.0",
     "next": "^16.2.0",
     "react": "^19.0.0",
