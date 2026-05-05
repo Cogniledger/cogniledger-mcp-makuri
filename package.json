@@ -1,0 +1,40 @@
+{
+  "name": "cogniledger-mcp-makuri",
+  "version": "0.1.0",
+  "private": false,
+  "description": "CogniLedger MCP Server — public read-only MCP server exposing metadata about the Makuri EdTech platform. Reference deployment for production MCP under EU compliance constraints.",
+  "license": "MIT",
+  "author": "CogniLedger Solutions S.R.L. <leonid@cogniledger.eu>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cogniledger/cogniledger-mcp-makuri.git"
+  },
+  "homepage": "https://mcp.cogniledger.eu",
+  "bugs": {
+    "email": "leonid@cogniledger.eu"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:smoke": "node scripts/test-client.mjs http://localhost:3000/mcp"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.26.0",
+    "mcp-handler": "1.1.0",
+    "next": "^16.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.4.0"
+  }
+}
