@@ -10,7 +10,15 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
-
+      ignore:
+      # Pinned to 1.26.0 due to mcp-handler@1.1.0 exact peer dependency.
+      - dependency-name: "@modelcontextprotocol/sdk"
+      # Zod v4 is a breaking change affecting all 8 tool input schemas.
+      - dependency-name: "zod"
+        update-types: ["version-update:semver-major"]
+      # TypeScript v6 still maturing (low compatibility signal).
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
