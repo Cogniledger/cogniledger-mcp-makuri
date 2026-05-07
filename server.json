@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Cogniledger/cogniledger-mcp-makuri",
+  "title": "Makuri Showcase (CogniLedger)",
+  "description": "Public MCP server for Makuri, an EU-compliant AI tutoring platform for immigrant children.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/Cogniledger/cogniledger-mcp-makuri",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.cogniledger.eu/mcp"
+    }
+  ]
+}

@@ -33,3 +33,5 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+# MCP Registry CLI (local tool, not part of the project)
+mcp-publisher.exe
