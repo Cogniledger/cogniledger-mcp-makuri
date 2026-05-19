@@ -1,6 +1,6 @@
 # Tool reference
 
-All eight tools are read-only, take optional or no input, and return JSON serialized as a single text block in the MCP `content` array. Every response includes a `last_updated` ISO date so clients can reason about staleness.
+All nine tools are read-only, take optional or no input, and return JSON serialized as a single text block in the MCP `content` array. Every response includes a `last_updated` ISO date so clients can reason about staleness.
 
 The production endpoint is `https://mcp.cogniledger.eu/mcp`. For local development the endpoint is `http://localhost:3000/mcp`.
 
@@ -280,6 +280,50 @@ The production endpoint is `https://mcp.cogniledger.eu/mcp`. For local developme
   "product": { "name": "Makuri", "website": "https://makuri.eu" },
   "last_updated": "2026-04-21",
   "query": { "purpose": "compliance", "found": true }
+}
+```
+
+---
+
+## 9. `get_free_resources`
+
+**Description (advertised to LLMs):** Returns free Makuri resources accessible without registration: Slovarik Romanian vocabulary issues and the Romanian level test. Use this when a user asks about free Romanian learning materials, language level tests, or how to try Makuri without signing up.
+
+**Input:** none — `{}`
+
+**Example response:**
+
+```json
+{
+  "free_resources": [
+    {
+      "name": "Slovarik — Romanian Vocabulary",
+      "type": "vocabulary_learning",
+      "description": "Free themed Romanian word issues (5–10 words each) with bilingual translations to Russian and Ukrainian, pronunciations, and example sentences. Three learning modes per issue: reading, flashcards, and quiz.",
+      "url": "https://makuri.eu/words",
+      "auth_required": false,
+      "price": "free",
+      "target_audience": "Russian- and Ukrainian-speaking immigrants in Romania",
+      "ui_languages": ["ru", "uk"],
+      "content_languages": ["ro", "ru", "uk"]
+    },
+    {
+      "name": "Romanian Level Test",
+      "type": "language_assessment",
+      "description": "20-question Romanian language level test based on Institutul Limbii Române (ILR) methodology. Returns CEFR level (A1–C1+) with breakdown by skill (grammar, vocabulary, reading). Optional email submission for a personal study plan.",
+      "url": "https://makuri.eu/words/level-test",
+      "auth_required": false,
+      "price": "free",
+      "methodology": "Institutul Limbii Române (ILR)",
+      "framework": "CEFR (Council of Europe)",
+      "questions": 20,
+      "levels_covered": ["A1", "A2", "B1", "B2", "C1+"],
+      "skills_covered": ["grammar", "vocabulary", "reading"],
+      "ui_languages": ["ru", "uk"],
+      "roadmap": "Personal named certificates will be generated for completed tests (planned)"
+    }
+  ],
+  "last_updated": "2026-05-19"
 }
 ```
 

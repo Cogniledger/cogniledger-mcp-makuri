@@ -1,18 +1,18 @@
 # CogniLedger MCP Server — Makuri showcase
 
-A public, read-only [Model Context Protocol](https://modelcontextprotocol.io) server operated by **CogniLedger Solutions S.R.L.** (Bucharest, Romania). It exposes structured metadata about the **Makuri** EdTech platform — eight tools covering mission, languages, teaching approach, pricing, safety, compliance posture, tech stack, and contact channels.
+A public, read-only [Model Context Protocol](https://modelcontextprotocol.io) server operated by **CogniLedger Solutions S.R.L.** (Bucharest, Romania). It exposes structured metadata about the **Makuri** EdTech platform — nine tools covering mission, languages, teaching approach, pricing, safety, compliance posture, tech stack, contact channels, and free public learning resources.
 
 This is a reference deployment demonstrating production MCP patterns under EU compliance constraints. Makuri is a High Risk AI system under EU AI Act Annex III, paragraph 3 (educational AI for minors); the v1 scope of this server is therefore deliberately narrow: **metadata only, no user data, no PII, no aggregated analytics**.
 
 - **Production endpoint:** `https://mcp.cogniledger.eu/mcp`
 - **License:** MIT
-- **Repository:** [github.com/cogniledger/cogniledger-mcp-makuri](https://github.com/cogniledger/cogniledger-mcp-makuri)
+- **Repository:** [github.com/Cogniledger/cogniledger-mcp-makuri](https://github.com/Cogniledger/cogniledger-mcp-makuri)
 - **Contact:** [leonid@cogniledger.eu](mailto:leonid@cogniledger.eu)
 
 ## What this server is
 
 - Public, unauthenticated, read-only
-- Eight tools returning static metadata (no database queries against user data)
+- Nine tools returning static metadata (no database queries against user data)
 - Designed to be called by AI assistants — Claude Desktop, Le Chat (Mistral), Cursor, ChatGPT Apps SDK, and any other MCP-capable client
 
 ## What this server is not
@@ -36,7 +36,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
 }
 ```
 
-Restart Claude Desktop. The eight tools appear under the connector picker.
+Restart Claude Desktop. The nine tools appear under the connector picker.
 
 ### Le Chat (Mistral)
 
@@ -72,13 +72,14 @@ Edit `~/.cursor/mcp.json`:
 | `get_compliance_matrix` | EU AI Act, GDPR, GDPR-K, COPPA, ISO 42001 — current status with disclaimer. Optional `regulation` filter. |
 | `get_tech_stack` | Frontend, backend, database, AI providers, EU data residency. |
 | `get_contact_info` | Contact channels by purpose. Optional `purpose` filter. |
+| `get_free_resources` | Free Makuri resources without registration: Slovarik vocabulary and Romanian level test (ILR methodology, CEFR A1–C1+). |
 
 Full input schemas and example responses: [`docs/TOOLS.md`](./docs/TOOLS.md). Real client transcripts: [`docs/EXAMPLES.md`](./docs/EXAMPLES.md). Compliance disclosure: [`docs/COMPLIANCE_DISCLOSURE.md`](./docs/COMPLIANCE_DISCLOSURE.md).
 
 ## Local development
 
 ```bash
-git clone https://github.com/cogniledger/cogniledger-mcp-makuri.git
+git clone https://github.com/Cogniledger/cogniledger-mcp-makuri.git
 cd cogniledger-mcp-makuri
 npm install
 npm run dev
@@ -104,7 +105,7 @@ The smoke test connects to the local server, lists tools, calls each one, and ex
 npx @modelcontextprotocol/inspector
 ```
 
-Connect with transport `streamable-http` to `http://localhost:3000/mcp`. All eight tools should be visible and callable.
+Connect with transport `streamable-http` to `http://localhost:3000/mcp`. All nine tools should be visible and callable.
 
 ## Security and compliance
 

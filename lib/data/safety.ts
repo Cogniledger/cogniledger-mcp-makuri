@@ -34,7 +34,15 @@ export const safetyData: SafetyData = {
     ],
     photo_handling:
       "Photos uploaded for AI processing are automatically deleted from storage after processing.",
-    no_training_on_child_data: "User data is not used to train AI models.",
+    no_training_on_child_data: {
+      enforced: true,
+      mechanism:
+        "Data Processing Agreements (DPAs) with all LLM providers used by Makuri",
+      verification:
+        "See get_compliance_matrix for per-provider DPA status",
+      scope:
+        "Applies to all user prompts and conversational data from registered minor accounts",
+    },
     no_ads: true,
     no_data_selling: true,
     no_third_party_tracking: true,
@@ -67,5 +75,5 @@ export const safetyData: SafetyData = {
     rate_limiting: "Per-user rate limiting on AI endpoints to prevent abuse",
     eu_data_residency: "All data is stored in the EU (Frankfurt region)",
   },
-  last_updated: "2026-04-21",
+  last_updated: "2026-05-19",
 };

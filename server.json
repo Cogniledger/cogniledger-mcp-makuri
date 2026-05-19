@@ -3,7 +3,7 @@
   "name": "io.github.Cogniledger/cogniledger-mcp-makuri",
   "title": "Makuri Showcase (CogniLedger)",
   "description": "Public MCP server for Makuri, an EU-compliant AI tutoring platform for immigrant children.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "url": "https://github.com/Cogniledger/cogniledger-mcp-makuri",
     "source": "github"

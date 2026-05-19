@@ -6,7 +6,7 @@
 //
 // Default server URL: http://localhost:3000/mcp
 //
-// Exits 0 if all 8 tools respond without an MCP error; 1 otherwise.
+// Exits 0 if all 9 tools respond without an MCP error; 1 otherwise.
 
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
@@ -25,6 +25,7 @@ const EXPECTED_TOOLS = [
   { name: "get_tech_stack", args: {} },
   { name: "get_contact_info", args: {} },
   { name: "get_contact_info", args: { purpose: "compliance" } },
+  { name: "get_free_resources", args: {} },
 ];
 
 function fmt(ms) {

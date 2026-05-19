@@ -39,6 +39,8 @@ export const platformData: PlatformData = {
     since: 2026,
   },
   website: "https://makuri.eu",
+  public_offering:
+    "Makuri also operates a public Romanian vocabulary service at makuri.eu/words, with themed word issues and a free 20-question level test based on Institutul Limbii Române methodology — no registration required. See get_free_resources for details.",
   upcoming_features: [
     {
       name: "Exam Preparation Module",
@@ -54,6 +56,13 @@ export const platformData: PlatformData = {
       planned_launch: "After the Exam Preparation module launches",
       status: "planned",
     },
+    {
+      name: "Personal Slovarik Certificates",
+      description:
+        "Personalized PDF certificates with full name and CEFR level, generated after completing the Romanian level test at makuri.eu/words/level-test",
+      planned_launch: "TBD",
+      status: "planned",
+    },
   ],
-  last_updated: "2026-04-21",
+  last_updated: "2026-05-19",
 };

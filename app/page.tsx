@@ -54,6 +54,10 @@ const tools = [
     name: "get_contact_info",
     desc: "Contact channels by purpose (partnership, press, support, compliance).",
   },
+  {
+    name: "get_free_resources",
+    desc: "Free Makuri resources accessible without registration: Slovarik Romanian vocabulary and the Romanian level test (ILR methodology, CEFR A1–C1+).",
+  },
 ];
 
 const claudeDesktopSnippet = `{
@@ -90,12 +94,13 @@ export default function HomePage() {
 
       <p>
         This server exposes <strong>metadata only</strong> about the Makuri
-        EdTech platform — eight tools covering mission, supported languages,
+        EdTech platform — nine tools covering mission, supported languages,
         teaching approach, pricing, safety features, compliance posture, tech
-        stack, and contact channels. No user data, no PII, no aggregated
-        analytics. It is a reference deployment demonstrating production MCP
-        patterns under EU compliance constraints (Makuri is a High Risk AI
-        system under EU AI Act Annex III, paragraph 3).
+        stack, contact channels, and free public resources for prospective
+        users. No user data, no PII, no aggregated analytics. It is a reference
+        deployment demonstrating production MCP patterns under EU compliance
+        constraints (Makuri is a High Risk AI system under EU AI Act Annex III,
+        paragraph 3).
       </p>
 
       <p>
@@ -137,7 +142,7 @@ export default function HomePage() {
         <p style={{ color: "#555" }}>
           Full schemas and example responses:{" "}
           <a
-            href="https://github.com/cogniledger/cogniledger-mcp-makuri/blob/main/docs/TOOLS.md"
+            href="https://github.com/Cogniledger/cogniledger-mcp-makuri/blob/main/docs/TOOLS.md"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -173,7 +178,7 @@ export default function HomePage() {
         <ul style={{ paddingLeft: 20 }}>
           <li>
             <a
-              href="https://github.com/cogniledger/cogniledger-mcp-makuri"
+              href="https://github.com/Cogniledger/cogniledger-mcp-makuri"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -182,7 +187,7 @@ export default function HomePage() {
           </li>
           <li>
             <a
-              href="https://github.com/cogniledger/cogniledger-mcp-makuri/blob/main/docs/TOOLS.md"
+              href="https://github.com/Cogniledger/cogniledger-mcp-makuri/blob/main/docs/TOOLS.md"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -191,7 +196,7 @@ export default function HomePage() {
           </li>
           <li>
             <a
-              href="https://github.com/cogniledger/cogniledger-mcp-makuri/blob/main/docs/EXAMPLES.md"
+              href="https://github.com/Cogniledger/cogniledger-mcp-makuri/blob/main/docs/EXAMPLES.md"
               target="_blank"
               rel="noopener noreferrer"
             >

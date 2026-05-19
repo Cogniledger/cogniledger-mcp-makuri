@@ -1,4 +1,4 @@
-// Shared TypeScript types for the eight data modules.
+// Shared TypeScript types for the data modules.
 // These types describe the shape of values exported from lib/data/*.ts
 // and consumed by the corresponding tool handlers in lib/tools/*.ts.
 
@@ -35,6 +35,7 @@ export interface PlatformData {
     since: number;
   };
   website: string;
+  public_offering?: string;
   upcoming_features: Array<{
     name: string;
     description: string;
@@ -133,6 +134,13 @@ export interface PricingData {
 
 // ---------- safety ----------
 
+export interface NoTrainingOnChildData {
+  enforced: boolean;
+  mechanism: string;
+  verification: string;
+  scope: string;
+}
+
 export interface SafetyData {
   age_gate: {
     enabled: boolean;
@@ -150,7 +158,7 @@ export interface SafetyData {
     pii_collected: string[];
     pii_not_collected: string[];
     photo_handling: string;
-    no_training_on_child_data: string;
+    no_training_on_child_data: NoTrainingOnChildData;
     no_ads: boolean;
     no_data_selling: boolean;
     no_third_party_tracking: boolean;
@@ -276,5 +284,42 @@ export interface ContactData {
     name: string;
     website: string;
   };
+  last_updated: string;
+}
+
+// ---------- free resources ----------
+
+export interface SlovarikResource {
+  name: string;
+  type: "vocabulary_learning";
+  description: string;
+  url: string;
+  auth_required: false;
+  price: "free";
+  target_audience: string;
+  ui_languages: string[];
+  content_languages: string[];
+}
+
+export interface LevelTestResource {
+  name: string;
+  type: "language_assessment";
+  description: string;
+  url: string;
+  auth_required: false;
+  price: "free";
+  methodology: string;
+  framework: string;
+  questions: number;
+  levels_covered: string[];
+  skills_covered: string[];
+  ui_languages: string[];
+  roadmap: string;
+}
+
+export type FreeResource = SlovarikResource | LevelTestResource;
+
+export interface FreeResourcesData {
+  free_resources: FreeResource[];
   last_updated: string;
 }
