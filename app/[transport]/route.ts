@@ -8,6 +8,7 @@ import { registerComplianceMatrix } from "@/lib/tools/get-compliance-matrix";
 import { registerTechStack } from "@/lib/tools/get-tech-stack";
 import { registerContactInfo } from "@/lib/tools/get-contact-info";
 import { registerFreeResources } from "@/lib/tools/get-free-resources";
+import { registerShowHowItWorks } from "@/lib/tools/show-how-it-works";
 
 const handler = createMcpHandler(
   (server) => {
@@ -20,6 +21,7 @@ const handler = createMcpHandler(
     registerTechStack(server);
     registerContactInfo(server);
     registerFreeResources(server);
+    registerShowHowItWorks(server);
   },
   {
     // Server options — none required for this read-only deployment.
