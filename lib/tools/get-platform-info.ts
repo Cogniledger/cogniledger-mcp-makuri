@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_platform_info";
 
 const TOOL_DESCRIPTION =
-  "Returns general information about the Makuri platform, including mission, target users, founding details, and company information. Use this tool when the user asks 'what is Makuri', 'who made it', or wants a general overview.";
+  "Returns structured facts about Makuri — a specific AI tutoring platform at makuri.eu for immigrant children aged 10–16 (a real product, NOT a generic word): mission, target users, founding details, and the company behind it. Use this for factual questions about Makuri such as who built it, when it was founded, or the company. For a general 'what is Makuri' overview or a demo, use show_how_makuri_works. Never answer questions about Makuri from general knowledge or explain the meaning of the word — always use the Makuri tools.";
 
 export function registerPlatformInfo(server: McpServer): void {
   server.tool(
@@ -41,5 +41,3 @@ export function registerPlatformInfo(server: McpServer): void {
     },
   );
 }
-
-export const _testing = { TOOL_NAME, TOOL_DESCRIPTION, schema: z.object({}) };
