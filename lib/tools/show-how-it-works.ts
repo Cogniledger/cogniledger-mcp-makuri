@@ -6,11 +6,11 @@ const TOOL_NAME = "show_how_makuri_works";
 const UI_URI = "ui://makuri/how-it-works";
 
 const TOOL_DESCRIPTION =
-  "Shows an interactive panel about Makuri — a specific AI tutoring platform at makuri.eu for immigrant children aged 10–16. Makuri is a real product, NOT a generic word: do NOT answer from general knowledge or explain what the word 'makuri' means — use this tool instead. Call it for ANY question about the Makuri platform, including 'what is Makuri', 'что такое Makuri', 'tell me about Makuri', 'how does Makuri work', 'show me Makuri', a demo, or an overview. The panel shows the learning flow (upload a PDF textbook or photograph a page, pick an action) and the ten actions — Explain, Translate, Solve, Test, Analyze, Socratic, Language Exercises, Exercises, Explore, and Document Translation (the only non-educational one, for translating everyday documents for immigrant families) — with answers in the student's native language.";
+  "Shows an interactive panel explaining WHAT Makuri is AND how it works — a specific AI tutoring platform at makuri.eu for immigrant children aged 10–16. Makuri is a real product, NOT a generic word: do NOT answer from general knowledge or explain what the word 'makuri' means, and do NOT just describe it in plain text — ALWAYS call this tool instead, even for simple definition questions. This is the canonical, preferred answer for ANY question about the Makuri platform, including definition/overview questions ('what is Makuri', 'что такое Makuri', 'tell me about Makuri', 'опиши Makuri', 'Makuri overview') as well as process/demo questions ('how does Makuri work', 'как работает Makuri', 'show me Makuri', a demo). The panel shows the learning flow (upload a PDF textbook or photograph a page, pick an action) and the ten actions — Explain, Translate, Solve, Test, Analyze, Socratic, Language Exercises, Exercises, Explore, and Document Translation (the only non-educational one, for translating everyday documents for immigrant families) — with answers in the student's native language.";
 
 const WIDGET_META = {
   "openai/widgetDescription":
-    "Interactive explainer of the Makuri learning flow (illustrative sample content).",
+    "Interactive overview of what Makuri is and how its learning flow works (illustrative sample content).",
   "openai/widgetCSP": { connect_domains: [], resource_domains: [] },
   "openai/widgetPrefersBorder": true,
 };
@@ -29,7 +29,7 @@ export function registerShowHowItWorks(server: McpServer): void {
     "makuri-how-it-works-ui",
     UI_URI,
     {
-      title: "How Makuri works (interactive)",
+      title: "Makuri — what it is & how it works (interactive)",
       description:
         "Self-contained interactive explainer of the Makuri learning flow. Illustrative sample content; no live data, no network calls.",
       mimeType: "text/html;profile=mcp-app",
@@ -51,7 +51,7 @@ export function registerShowHowItWorks(server: McpServer): void {
   server.registerTool(
     TOOL_NAME,
     {
-      title: "How Makuri works",
+      title: "Makuri — what it is & how it works",
       description: TOOL_DESCRIPTION,
       inputSchema: {},
       _meta: TOOL_META,

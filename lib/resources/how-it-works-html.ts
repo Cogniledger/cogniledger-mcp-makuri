@@ -36,7 +36,13 @@ export const howItWorksHtml = `<!doctype html>
   .ic svg.f{fill:#fff;stroke:none}
   .rlabel{font-size:12px;color:#9a9aa2;margin:16px 0 6px;display:flex;align-items:center;gap:5px}
   .ans{background:#f6f7fb;border:1px solid #ececf2;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.65;color:#2a2a30;min-height:58px}
-  .term{background:#e7eefc;color:#1c3a8a;border-radius:4px;padding:0 4px}
+  .term{background:#e7eefc;color:#1c3a8a;border-radius:4px;padding:0 4px;cursor:pointer;border-bottom:1px dotted #6b86d6}
+  .term:hover{background:#d8e4fb}
+  .langpill{cursor:pointer;font-family:inherit;line-height:1.2}
+  .langpill:hover{background:rgba(255,255,255,.3)}
+  .tip{position:fixed;z-index:50;background:#221d44;color:#fff;font-size:12px;line-height:1.35;padding:6px 9px;border-radius:7px;box-shadow:0 6px 18px rgba(0,0,0,.28);max-width:220px;pointer-events:none;opacity:0;transform:translateY(2px);transition:opacity .1s,transform .1s}
+  .tip.on{opacity:1;transform:none}
+  .tip b{display:block;font-weight:700;font-size:11px;color:#c7b8ff;margin-bottom:1px}
   .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px;margin-top:16px}
   .feat{border:1px solid #ececf2;border-radius:9px;padding:8px 10px;font-size:12px;color:#7a7a82;background:#fcfcfd}
   .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #eee}
@@ -67,7 +73,7 @@ export const howItWorksHtml = `<!doctype html>
       </div>
     </div>
     <div class="mk-right">
-      <span class="mk-pill">RO → UA</span>
+      <button class="mk-pill langpill" id="langpill" type="button" aria-label="Змінити мову відповіді"><span id="langtxt">RO → UA</span> ⇄</button>
       <span class="mk-pill">14 мов</span>
       <span class="mk-seg"><button id="mf" class="on" type="button">⚡ Швидкий</button><button id="md" type="button">Глибокий</button></span>
     </div>
@@ -95,7 +101,7 @@ export const howItWorksHtml = `<!doctype html>
 
     <div class="rlabel">📋 РЕЗУЛЬТАТ — <span id="lbl" style="color:#2f6df6;font-weight:600">Поясни</span></div>
     <div class="ans" id="ans">Простими словами: <span class="term">fotosinteză</span> — рослина з <span class="term">lumină</span> (світла) і <span class="term">apă</span> (води) робить собі їжу. Усе відбувається в <span class="term">cloroplaste</span>.</div>
-    <p class="note">Румунські терміни підсвічені й автоматично копляться в особистий Глосарій учня.</p>
+    <p class="note" id="glossnote">Румунські терміни підсвічені — торкнись будь-якого, щоб побачити переклад. Усі терміни автоматично копляться в особистий Глосарій учня.</p>
 
     <div class="feats">
       <div class="feat">📚 Глосарій термінів</div>
@@ -116,29 +122,98 @@ export const howItWorksHtml = `<!doctype html>
 </div>
 <script>
 (function(){
-  var data={
-    explain:{l:"Поясни",h:'Простими словами: <span class="term">fotosinteză</span> — рослина з <span class="term">lumină</span> (світла) і <span class="term">apă</span> (води) робить собі їжу. Усе відбувається в <span class="term">cloroplaste</span>.'},
-    translate:{l:"Переклади",h:'<span class="term">fotosinteză</span> = фотосинтез · <span class="term">frunză</span> = листок · <span class="term">lumină</span> = світло · <span class="term">oxigen</span> = кисень'},
-    solve:{l:"Розв'яжи",h:'Завдання з підручника: «Ce gaz produce planta?» → відповідь <span class="term">oxigen</span> (кисень), що виділяється під час <span class="term">fotosinteză</span>.'},
-    test:{l:"Перевір",h:'1/5 · Де відбувається <span class="term">fotosinteza</span>?&nbsp; ▢ în rădăcină&nbsp; ▢ în <span class="term">cloroplaste</span>&nbsp; ▢ în sol. За 100% — картинка-нагорода.'},
-    analyze:{l:"Розбір",h:'Розбір параграфа: умови (<span class="term">lumină</span>, <span class="term">apă</span>) → процес (<span class="term">fotosinteză</span>) → результат (<span class="term">oxigen</span>), а також дихання рослини.'},
-    socratic:{l:"Сократ",h:'А що, на твою думку, станеться з рослиною без <span class="term">lumină</span>? Подумай — я веду питаннями, а ти відповідаєш.'},
-    ask:{l:"Мовні вправи",h:'Мовна вправа зі словами уроку: встав форму — «planta produce <span class="term">oxigen</span>». Множина: <span class="term">frunză</span> → <span class="term">frunze</span>. Артикль: <span class="term">frunza</span>.'},
-    exercises:{l:"Вправи",h:'Інтерактивна вправа: збери правильний ланцюжок — <span class="term">lumină</span> → <span class="term">apă</span> → <span class="term">fotosinteză</span> → <span class="term">oxigen</span>.'},
-    explore:{l:"Цікаве",h:'А ти знав? Одне доросле дерево за день дає стільки <span class="term">oxigen</span>, що вистачить приблизно двом людям.'},
-    doctranslate:{l:"Переклад документа",h:'Не навчальна функція — допомога батькам-іммігрантам. Переклад будь-яких документів: листи, інструкції, оголошення, довідки → чистий переклад + коротке пояснення, що це і що робити далі.'}
+  // Result-panel labels follow the UI language (the buttons stay in UA); the
+  // ANSWER content + glossary switch with the student's native language (UA/RU).
+  var LABELS={explain:"Поясни",translate:"Переклади",solve:"Розв'яжи",test:"Перевір",analyze:"Розбір",socratic:"Сократ",ask:"Мовні вправи",exercises:"Вправи",explore:"Цікаве",doctranslate:"Переклад документа"};
+
+  var I18N={
+    ua:{
+      pair:"RO → UA",
+      dropDoc:"Завантаж pdf підручника та обери сторінки для роботи. Не більше 5-ти сторінок",
+      dropPhoto:"Зроби якісні фото підручника та завантаж їх сюди. Бажано не більше 5-ти фотографій.",
+      note:"Румунські терміни підсвічені — торкнись будь-якого, щоб побачити переклад. Усі терміни автоматично копляться в особистий Глосарій учня.",
+      data:{
+        explain:'Простими словами: <span class="term">fotosinteză</span> — рослина з <span class="term">lumină</span> (світла) і <span class="term">apă</span> (води) робить собі їжу. Усе відбувається в <span class="term">cloroplaste</span>.',
+        translate:'<span class="term">fotosinteză</span> = фотосинтез · <span class="term">frunză</span> = листок · <span class="term">lumină</span> = світло · <span class="term">oxigen</span> = кисень',
+        solve:'Завдання з підручника: «Ce gaz produce planta?» → відповідь <span class="term">oxigen</span> (кисень), що виділяється під час <span class="term">fotosinteză</span>.',
+        test:'1/5 · Де відбувається <span class="term">fotosinteza</span>?&nbsp; ▢ în rădăcină&nbsp; ▢ în <span class="term">cloroplaste</span>&nbsp; ▢ în sol. За 100% — картинка-нагорода.',
+        analyze:'Розбір параграфа: умови (<span class="term">lumină</span>, <span class="term">apă</span>) → процес (<span class="term">fotosinteză</span>) → результат (<span class="term">oxigen</span>), а також дихання рослини.',
+        socratic:'А що, на твою думку, станеться з рослиною без <span class="term">lumină</span>? Подумай — я веду питаннями, а ти відповідаєш.',
+        ask:'Мовна вправа зі словами уроку: встав форму — «planta produce <span class="term">oxigen</span>». Множина: <span class="term">frunză</span> → <span class="term">frunze</span>. Артикль: <span class="term">frunza</span>.',
+        exercises:'Інтерактивна вправа: збери правильний ланцюжок — <span class="term">lumină</span> → <span class="term">apă</span> → <span class="term">fotosinteză</span> → <span class="term">oxigen</span>.',
+        explore:'А ти знав? Одне доросле дерево за день дає стільки <span class="term">oxigen</span>, що вистачить приблизно двом людям.',
+        doctranslate:'Не навчальна функція — допомога батькам-іммігрантам. Переклад будь-яких документів: листи, інструкції, оголошення, довідки → чистий переклад + коротке пояснення, що це і що робити далі.'
+      },
+      gloss:{"fotosinteză":"фотосинтез","fotosinteza":"фотосинтез","lumină":"світло","apă":"вода","cloroplaste":"хлоропласти","frunză":"листок","frunze":"листки","frunza":"листок (з артиклем)","oxigen":"кисень"}
+    },
+    ru:{
+      pair:"RO → RU",
+      dropDoc:"Загрузи pdf учебника и выбери страницы для работы. Не более 5-ти страниц",
+      dropPhoto:"Сделай качественные фото учебника и загрузи их сюда. Желательно не более 5-ти фотографий.",
+      note:"Румынские термины подсвечены — нажми на любой, чтобы увидеть перевод. Все термины автоматически собираются в личный Глоссарий ученика.",
+      data:{
+        explain:'Простыми словами: <span class="term">fotosinteză</span> — растение из <span class="term">lumină</span> (света) и <span class="term">apă</span> (воды) делает себе еду. Всё происходит в <span class="term">cloroplaste</span>.',
+        translate:'<span class="term">fotosinteză</span> = фотосинтез · <span class="term">frunză</span> = лист · <span class="term">lumină</span> = свет · <span class="term">oxigen</span> = кислород',
+        solve:'Задача из учебника: «Ce gaz produce planta?» → ответ <span class="term">oxigen</span> (кислород), который выделяется во время <span class="term">fotosinteză</span>.',
+        test:'1/5 · Где происходит <span class="term">fotosinteza</span>?&nbsp; ▢ în rădăcină&nbsp; ▢ în <span class="term">cloroplaste</span>&nbsp; ▢ în sol. За 100% — картинка-награда.',
+        analyze:'Разбор параграфа: условия (<span class="term">lumină</span>, <span class="term">apă</span>) → процесс (<span class="term">fotosinteză</span>) → результат (<span class="term">oxigen</span>), а также дыхание растения.',
+        socratic:'А что, по-твоему, случится с растением без <span class="term">lumină</span>? Подумай — я веду вопросами, а ты отвечаешь.',
+        ask:'Языковое упражнение со словами урока: вставь форму — «planta produce <span class="term">oxigen</span>». Множественное: <span class="term">frunză</span> → <span class="term">frunze</span>. Артикль: <span class="term">frunza</span>.',
+        exercises:'Интерактивное упражнение: собери правильную цепочку — <span class="term">lumină</span> → <span class="term">apă</span> → <span class="term">fotosinteză</span> → <span class="term">oxigen</span>.',
+        explore:'А ты знал? Одно взрослое дерево за день даёт столько <span class="term">oxigen</span>, что хватит примерно двум людям.',
+        doctranslate:'Не учебная функция — помощь родителям-иммигрантам. Перевод любых документов: письма, инструкции, объявления, справки → чистый перевод + краткое пояснение, что это и что делать дальше.'
+      },
+      gloss:{"fotosinteză":"фотосинтез","fotosinteza":"фотосинтез","lumină":"свет","apă":"вода","cloroplaste":"хлоропласты","frunză":"лист","frunze":"листья","frunza":"лист (с артиклем)","oxigen":"кислород"}
+    }
   };
-  var ans=document.getElementById("ans"),lbl=document.getElementById("lbl");
+
+  var lang="ua", act="explain", tab="doc";
+  var ans=document.getElementById("ans"),
+      lbl=document.getElementById("lbl"),
+      drop=document.getElementById("drop"),
+      glossnote=document.getElementById("glossnote"),
+      langtxt=document.getElementById("langtxt"),
+      langpill=document.getElementById("langpill");
+
+  function renderAnswer(){lbl.textContent=LABELS[act];ans.innerHTML=I18N[lang].data[act];}
+  function renderChrome(){var L=I18N[lang];langtxt.textContent=L.pair;glossnote.textContent=L.note;drop.textContent=(tab==="doc"?L.dropDoc:L.dropPhoto);}
+
+  // Action buttons -> swap RESULT panel (canned sample per action)
   document.querySelectorAll(".act").forEach(function(b){b.addEventListener("click",function(){
     document.querySelectorAll(".act").forEach(function(x){x.classList.toggle("on",x===b);});
-    var d=data[b.getAttribute("data-act")];lbl.textContent=d.l;ans.innerHTML=d.h;
+    act=b.getAttribute("data-act");renderAnswer();hideTip();
   });});
-  var tphoto=document.getElementById("tphoto"),tdoc=document.getElementById("tdoc"),drop=document.getElementById("drop");
-  tdoc.addEventListener("click",function(){tdoc.classList.add("on");tphoto.classList.remove("on");drop.textContent="Завантаж pdf підручника та обери сторінки для роботи. Не більше 5-ти сторінок";});
-  tphoto.addEventListener("click",function(){tphoto.classList.add("on");tdoc.classList.remove("on");drop.textContent="Зроби якісні фото підручника та завантаж їх сюди. Бажано не більше 5-ти фотографій.";});
+
+  // Input tabs
+  var tphoto=document.getElementById("tphoto"),tdoc=document.getElementById("tdoc");
+  tdoc.addEventListener("click",function(){tab="doc";tdoc.classList.add("on");tphoto.classList.remove("on");renderChrome();});
+  tphoto.addEventListener("click",function(){tab="photo";tphoto.classList.add("on");tdoc.classList.remove("on");renderChrome();});
+
+  // Fast / Deep (cosmetic indicator)
   var mf=document.getElementById("mf"),md=document.getElementById("md");
   mf.addEventListener("click",function(){mf.classList.add("on");md.classList.remove("on");});
   md.addEventListener("click",function(){md.classList.add("on");mf.classList.remove("on");});
+
+  // Native-language switch (UA <-> RU) — re-renders answer + glossary
+  langpill.addEventListener("click",function(){lang=(lang==="ua"?"ru":"ua");renderChrome();renderAnswer();hideTip();});
+
+  // Glossary tooltip: tap a highlighted RO term -> translation in current language
+  var tip=document.createElement("div");tip.className="tip";document.body.appendChild(tip);
+  function hideTip(){tip.classList.remove("on");}
+  ans.addEventListener("click",function(e){
+    var t=e.target.closest&&e.target.closest(".term");if(!t){hideTip();return;}
+    var key=t.textContent.trim().toLowerCase().replace(/[.,!?;:]+$/,"");
+    var g=I18N[lang].gloss[key];if(!g){hideTip();return;}
+    tip.innerHTML='<b>'+t.textContent.trim()+'</b>'+g;
+    var r=t.getBoundingClientRect();
+    tip.style.left=Math.max(8,r.left)+"px";
+    tip.style.top=(r.bottom+6)+"px";
+    tip.classList.add("on");
+    e.stopPropagation();
+  });
+  document.addEventListener("click",function(e){if(!(e.target.closest&&e.target.closest(".term")))hideTip();});
+
+  renderChrome();renderAnswer();
 })();
 </script>
 </body>
