@@ -17,6 +17,7 @@ const WIDGET_META = {
 
 const TOOL_META = {
   ui: { resourceUri: UI_URI },
+  "ui/resourceUri": UI_URI,
   "openai/outputTemplate": UI_URI,
 };
 

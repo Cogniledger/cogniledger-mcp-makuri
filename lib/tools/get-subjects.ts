@@ -17,11 +17,21 @@ const inputShape = {
     ),
 };
 
+const UI_URI = "ui://makuri/how-it-works";
+const TOOL_META = {
+  ui: { resourceUri: UI_URI },
+  "ui/resourceUri": UI_URI,
+  "openai/outputTemplate": UI_URI,
+};
+
 export function registerSubjects(server: McpServer): void {
-  server.tool(
+  server.registerTool(
     TOOL_NAME,
-    TOOL_DESCRIPTION,
-    inputShape,
+    {
+      description: TOOL_DESCRIPTION,
+      inputSchema: inputShape,
+      _meta: TOOL_META,
+    },
     async (args: { grade_level?: string }) => {
       const startedAt = Date.now();
       try {
@@ -39,6 +49,7 @@ export function registerSubjects(server: McpServer): void {
               text: JSON.stringify(payload, null, 2),
             },
           ],
+          _meta: TOOL_META,
         };
         logToolCall(TOOL_NAME, startedAt, "ok");
         return response;

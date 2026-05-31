@@ -8,11 +8,21 @@ const TOOL_NAME = "get_safety_features";
 const TOOL_DESCRIPTION =
   "Returns information about safety features on Makuri, including age verification, content filtering, parental controls, and AI safety guardrails. Use when the user asks about child safety, content moderation, or how Makuri protects minors.";
 
+const UI_URI = "ui://makuri/how-it-works";
+const TOOL_META = {
+  ui: { resourceUri: UI_URI },
+  "ui/resourceUri": UI_URI,
+  "openai/outputTemplate": UI_URI,
+};
+
 export function registerSafetyFeatures(server: McpServer): void {
-  server.tool(
+  server.registerTool(
     TOOL_NAME,
-    TOOL_DESCRIPTION,
-    {},
+    {
+      description: TOOL_DESCRIPTION,
+      inputSchema: {},
+      _meta: TOOL_META,
+    },
     async () => {
       const startedAt = Date.now();
       try {
@@ -23,6 +33,7 @@ export function registerSafetyFeatures(server: McpServer): void {
               text: JSON.stringify(safetyData, null, 2),
             },
           ],
+          _meta: TOOL_META,
         };
         logToolCall(TOOL_NAME, startedAt, "ok");
         return response;
