@@ -1,6 +1,8 @@
 // Self-contained HTML for the Romanian mini-quiz MCP Apps widget.
 // Zero network calls, no external assets, no window.openai/ui bridge.
 // Template-literal safety: no backticks and no ${ sequences anywhere inside.
+// v1.2.1: bank of 15 questions (A1–B2), each run picks a random 10 (Fisher–Yates),
+// per-answer explanation in RU/UK, four-level result scale.
 
 export const romanianQuizHtml = `<!doctype html>
 <html lang="ru">
@@ -33,6 +35,8 @@ export const romanianQuizHtml = `<!doctype html>
   .opt.ok{border-color:#1f9d55;background:#e9f8ef;font-weight:600}
   .opt.bad{border-color:#d64545;background:#fdeeee}
   .opt:disabled{cursor:default}
+  .expl{display:none;margin-top:10px;background:#f6f7fb;border:1px solid #ececf2;border-left:3px solid #7d44ec;border-radius:8px;padding:9px 12px;font-size:12.5px;color:#55555e;line-height:1.5}
+  .expl.on{display:block}
   .next{margin-top:14px;border:0;border-radius:10px;background:#7d44ec;color:#fff;font-size:13.5px;font-weight:700;padding:10px 18px;cursor:pointer;display:none;font-family:inherit}
   .next.on{display:inline-block}
   .res-lvl{font-size:25px;font-weight:800;color:#7d44ec;margin:4px 0 2px}
@@ -47,7 +51,7 @@ export const romanianQuizHtml = `<!doctype html>
 </style>
 </head>
 <body>
-<h1 class="sr">Мини-тест румынского языка от Makuri: 6 вопросов, примерная оценка уровня, ссылка на полный бесплатный тест.</h1>
+<h1 class="sr">Мини-тест румынского языка от Makuri: 10 случайных вопросов из 15, разбор каждого ответа, примерная оценка уровня A1–B2, ссылка на полный бесплатный тест.</h1>
 <div class="mk">
   <div class="mk-top">
     <div class="mk-brand">
@@ -73,6 +77,7 @@ export const romanianQuizHtml = `<!doctype html>
       <div class="qn" id="qn"></div>
       <div class="qt" id="qt"></div>
       <div class="opts" id="opts"></div>
+      <div class="expl" id="expl"></div>
       <button class="next" id="next" type="button"></button>
     </div>
     <div id="result" class="hide">
@@ -88,40 +93,69 @@ export const romanianQuizHtml = `<!doctype html>
 <script>
 (function(){
   "use strict";
+  var PER_RUN=10;
   var I18N={
     ru:{
-      sub:"Мини-тест румынского · 6 вопросов",
-      q:"Вопрос ", of:" из 6", next:"Дальше", show:"Результат",
-      lvl:["Начальный уровень (примерно A1)","Базовый уровень (примерно A2)","Средний уровень (примерно B1)"],
+      sub:"Мини-тест румынского · 10 вопросов",
+      q:"Вопрос ", of:" из "+PER_RUN, next:"Дальше", show:"Результат",
+      lvl:["Начальный уровень (примерно A1)","Базовый уровень (примерно A2)","Средний уровень (примерно B1)","Уверенный уровень (примерно B2)"],
       score:"Правильных ответов: ",
-      note:"Это примерная оценка по 6 вопросам. Точный уровень (A1–C1+) покажет полный бесплатный тест из 20 вопросов по методологии ILR — без регистрации.",
-      cta:"Пройти полный тест", copy:"Копировать ссылку", copied:"Скопировано!", again:"Пройти ещё раз"
+      note:"Это примерная оценка по "+PER_RUN+" случайным вопросам. Точный уровень (A1–C1+) покажет полный бесплатный тест из 20 вопросов по методологии ILR — без регистрации.",
+      cta:"Пройти полный тест", copy:"Копировать ссылку", copied:"Скопировано!", again:"Пройти ещё раз (другие вопросы)"
     },
     uk:{
-      sub:"Міні-тест румунської · 6 питань",
-      q:"Питання ", of:" із 6", next:"Далі", show:"Результат",
-      lvl:["Початковий рівень (приблизно A1)","Базовий рівень (приблизно A2)","Середній рівень (приблизно B1)"],
+      sub:"Міні-тест румунської · 10 питань",
+      q:"Питання ", of:" із "+PER_RUN, next:"Далі", show:"Результат",
+      lvl:["Початковий рівень (приблизно A1)","Базовий рівень (приблизно A2)","Середній рівень (приблизно B1)","Впевнений рівень (приблизно B2)"],
       score:"Правильних відповідей: ",
-      note:"Це приблизна оцінка за 6 питаннями. Точний рівень (A1–C1+) покаже повний безкоштовний тест із 20 питань за методологією ILR — без реєстрації.",
-      cta:"Пройти повний тест", copy:"Копіювати посилання", copied:"Скопійовано!", again:"Пройти ще раз"
+      note:"Це приблизна оцінка за "+PER_RUN+" випадковими питаннями. Точний рівень (A1–C1+) покаже повний безкоштовний тест із 20 питань за методологією ILR — без реєстрації.",
+      cta:"Пройти повний тест", copy:"Копіювати посилання", copied:"Скопійовано!", again:"Пройти ще раз (інші питання)"
     }
   };
-  var Q=[
-    {ru:{t:"Что означает \u00ABmul\u021Bumesc\u00BB?",o:["пожалуйста","до свидания","спасибо","извините"]},
-     uk:{t:"Що означає \u00ABmul\u021Bumesc\u00BB?",o:["будь ласка","до побачення","дякую","вибачте"]},c:2},
-    {ru:{t:"Как сказать \u00ABдоброе утро\u00BB по-румынски?",o:["Bun\u0103 diminea\u021Ba","Noapte bun\u0103","Bun\u0103 seara","La revedere"]},
-     uk:{t:"Як сказати \u00ABдоброго ранку\u00BB румунською?",o:["Bun\u0103 diminea\u021Ba","Noapte bun\u0103","Bun\u0103 seara","La revedere"]},c:0},
-    {ru:{t:"Выберите правильную форму: Eu ___ la \u0219coal\u0103.",o:["mergi","merg","merge","mergem"]},
-     uk:{t:"Оберіть правильну форму: Eu ___ la \u0219coal\u0103.",o:["mergi","merg","merge","mergem"]},c:1},
-    {ru:{t:"\u00ABКнига\u00BB с определённым артиклем — это…",o:["carte","c\u0103r\u021Bi","cartea","cartele"]},
-     uk:{t:"\u00ABКнига\u00BB з означеним артиклем — це…",o:["carte","c\u0103r\u021Bi","cartea","cartele"]},c:2},
-    {ru:{t:"Выберите правильную форму: Dac\u0103 a\u0219 avea timp, ___ mai mult.",o:["citesc","cite\u0219te","a\u0219 citi","citind"]},
-     uk:{t:"Оберіть правильну форму: Dac\u0103 a\u0219 avea timp, ___ mai mult.",o:["citesc","cite\u0219te","a\u0219 citi","citind"]},c:2},
-    {ru:{t:"Что означает \u00ABa se descurca\u00BB?",o:["спорить","справляться","спускаться","описывать"]},
-     uk:{t:"Що означає \u00ABa se descurca\u00BB?",o:["сперечатися","давати собі раду","спускатися","описувати"]},c:1}
+  var BANK=[
+    {ru:{t:"Что означает «mulțumesc»?",o:["пожалуйста","до свидания","спасибо","извините"],e:"«Mulțumesc» — «спасибо», базовое слово вежливости."},
+     uk:{t:"Що означає «mulțumesc»?",o:["будь ласка","до побачення","дякую","вибачте"],e:"«Mulțumesc» — «дякую», базове слово ввічливості."},c:2},
+    {ru:{t:"Как сказать «доброе утро» по-румынски?",o:["Bună dimineața","Noapte bună","Bună seara","La revedere"],e:"«Dimineața» — утро, поэтому «доброе утро» — Bună dimineața."},
+     uk:{t:"Як сказати «доброго ранку» румунською?",o:["Bună dimineața","Noapte bună","Bună seara","La revedere"],e:"«Dimineața» — ранок, тому «доброго ранку» — Bună dimineața."},c:0},
+    {ru:{t:"Выберите правильную форму: Eu ___ la școală.",o:["mergi","merg","merge","mergem"],e:"С «eu» глагол стоит в 1-м лице ед. числа: eu merg."},
+     uk:{t:"Оберіть правильну форму: Eu ___ la școală.",o:["mergi","merg","merge","mergem"],e:"З «eu» дієслово в 1-й особі однини: eu merg."},c:1},
+    {ru:{t:"«Книга» с определённым артиклем — это…",o:["carte","cărți","cartea","cartele"],e:"Определённый артикль в румынском приклеивается к концу слова: carte → cartea."},
+     uk:{t:"«Книга» з означеним артиклем — це…",o:["carte","cărți","cartea","cartele"],e:"Означений артикль у румунській додається в кінець слова: carte → cartea."},c:2},
+    {ru:{t:"Выберите правильную форму: Noi ___ română în fiecare zi.",o:["vorbesc","vorbește","vorbim","vorbiți"],e:"С «noi» окончание -im: noi vorbim."},
+     uk:{t:"Оберіть правильну форму: Noi ___ română în fiecare zi.",o:["vorbesc","vorbește","vorbim","vorbiți"],e:"З «noi» закінчення -im: noi vorbim."},c:2},
+    {ru:{t:"Что означает «ieri»?",o:["завтра","вчера","сегодня","сейчас"],e:"Ieri — «вчера», azi — «сегодня», mâine — «завтра»."},
+     uk:{t:"Що означає «ieri»?",o:["завтра","вчора","сьогодні","зараз"],e:"Ieri — «вчора», azi — «сьогодні», mâine — «завтра»."},c:1},
+    {ru:{t:"Выберите правильную форму: Ea ___ o scrisoare ieri.",o:["scrie","a scris","va scrie","scriind"],e:"«Ieri» требует прошедшего времени (perfect compus): a scris."},
+     uk:{t:"Оберіть правильну форму: Ea ___ o scrisoare ieri.",o:["scrie","a scris","va scrie","scriind"],e:"«Ieri» вимагає минулого часу (perfect compus): a scris."},c:1},
+    {ru:{t:"Множественное число: un copil → doi ___",o:["copil","copiii","copii","copile"],e:"Множественное число от copil — copii: doi copii."},
+     uk:{t:"Множина: un copil → doi ___",o:["copil","copiii","copii","copile"],e:"Множина від copil — copii: doi copii."},c:2},
+    {ru:{t:"Выберите правильную форму: Dacă aș avea timp, ___ mai mult.",o:["aș citi","citesc","citește","citind"],e:"Условное наклонение: aș + инфинитив — aș citi («я бы читал»)."},
+     uk:{t:"Оберіть правильну форму: Dacă aș avea timp, ___ mai mult.",o:["aș citi","citesc","citește","citind"],e:"Умовний спосіб: aș + інфінітив — aș citi («я б читав»)."},c:0},
+    {ru:{t:"Что означает «a se descurca»?",o:["спорить","описывать","спускаться","справляться"],e:"«A se descurca» — «справляться, находить выход»."},
+     uk:{t:"Що означає «a se descurca»?",o:["сперечатися","описувати","спускатися","давати собі раду"],e:"«A se descurca» — «давати собі раду, знаходити вихід»."},c:3},
+    {ru:{t:"Выберите правильную форму: Trebuie ___ acasă devreme.",o:["a pleca","plecând","să plec","plecat"],e:"После «să» глагол стоит в конжунктиве: trebuie să plec — «мне нужно уйти»."},
+     uk:{t:"Оберіть правильну форму: Trebuie ___ acasă devreme.",o:["a pleca","plecând","să plec","plecat"],e:"Після «să» дієслово в кон'юнктиві: trebuie să plec — «мені треба піти»."},c:2},
+    {ru:{t:"«Я его видел вчера»: ___ văzut pe Mihai ieri.",o:["L-am","L-a","Îl am","Am îl"],e:"Местоимение-клитика l- («его») сливается с am: L-am văzut — «я его видел»."},
+     uk:{t:"«Я його бачив учора»: ___ văzut pe Mihai ieri.",o:["L-am","L-a","Îl am","Am îl"],e:"Займенник-клітика l- («його») зливається з am: L-am văzut — «я його бачив»."},c:0},
+    {ru:{t:"Что означает «a-și da seama»?",o:["сдаваться","осознавать","отдавать","считать"],e:"Идиома «a-și da seama» — «осознавать, понимать»."},
+     uk:{t:"Що означає «a-și da seama»?",o:["здаватися","усвідомлювати","віддавати","рахувати"],e:"Ідіома «a-și da seama» — «усвідомлювати, розуміти»."},c:1},
+    {ru:{t:"Выберите правильную форму: Deși ___ târziu, am continuat să lucrăm.",o:["fiind","să fie","ar fi","era"],e:"После «deși» («хотя») — обычное изъявительное наклонение: deși era târziu."},
+     uk:{t:"Оберіть правильну форму: Deși ___ târziu, am continuat să lucrăm.",o:["fiind","să fie","ar fi","era"],e:"Після «deși» («хоча») — звичайний дійсний спосіб: deși era târziu."},c:3},
+    {ru:{t:"Что означает «însă»?",o:["поэтому","если","однако","хотя"],e:"«Însă» — «однако, но»."},
+     uk:{t:"Що означає «însă»?",o:["тому","якщо","однак","хоча"],e:"«Însă» — «однак, але»."},c:2}
   ];
-  var lang="ru", idx=0, score=0, answered=false;
+  var ORDER=[], lang="ru", idx=0, score=0, answered=false;
   function el(id){return document.getElementById(id);}
+  function newOrder(){
+    var a=[],i;
+    for(i=0;i<BANK.length;i++){a.push(i);}
+    for(i=a.length-1;i>0;i--){
+      var k=Math.floor(Math.random()*(i+1));
+      var t=a[i];a[i]=a[k];a[k]=t;
+    }
+    ORDER=a.slice(0,PER_RUN);
+  }
+  function cur(){return BANK[ORDER[idx]];}
   function setLang(l){
     lang=l;
     el("btn-ru").classList.toggle("on",l==="ru");
@@ -130,10 +164,10 @@ export const romanianQuizHtml = `<!doctype html>
     if(el("result").classList.contains("hide")){renderQ(true);}else{renderResult();}
   }
   function renderQ(keepState){
-    var t=I18N[lang], q=Q[idx];
+    var t=I18N[lang], q=cur();
     el("qn").textContent=t.q+(idx+1)+t.of;
     el("qt").textContent=q[lang].t;
-    el("bar").style.width=((idx)/Q.length*100)+"%";
+    el("bar").style.width=(idx/PER_RUN*100)+"%";
     var box=el("opts"); box.innerHTML="";
     for(var i=0;i<q[lang].o.length;i++){
       (function(i){
@@ -148,57 +182,64 @@ export const romanianQuizHtml = `<!doctype html>
         box.appendChild(b);
       })(i);
     }
+    var ex=el("expl");
+    if(answered&&keepState){ex.textContent=q[lang].e;ex.classList.add("on");}
+    else{ex.textContent="";ex.classList.remove("on");}
     var n=el("next");
-    n.textContent=(idx===Q.length-1)?t.show:t.next;
-    n.classList.toggle("on",answered&&!!keepState);
+    n.textContent=(idx===PER_RUN-1)?t.show:t.next;
+    n.classList.toggle("on",!!(answered&&keepState));
   }
   function answer(i,btn){
     if(answered)return;
     answered=true;
-    var q=Q[idx], kids=el("opts").children;
+    var q=cur(), kids=el("opts").children;
     for(var k=0;k<kids.length;k++){kids[k].disabled=true;}
     if(i===q.c){score++;btn.classList.add("ok");}
     else{btn.classList.add("bad");kids[q.c].classList.add("ok");}
+    var ex=el("expl");
+    ex.textContent=q[lang].e;
+    ex.classList.add("on");
     el("next").classList.add("on");
   }
   function renderResult(){
     var t=I18N[lang];
-    var li=score<=2?0:(score<=4?1:2);
+    var li=score<=3?0:(score<=6?1:(score<=8?2:3));
     el("quiz").classList.add("hide");
     el("result").classList.remove("hide");
     el("bar").style.width="100%";
     el("lvl").textContent=t.lvl[li];
-    el("sc").textContent=t.score+score+" / "+Q.length;
+    el("sc").textContent=t.score+score+" / "+PER_RUN;
     el("note").textContent=t.note;
     el("cta").textContent=t.cta;
     el("copy").textContent=t.copy;
     el("again").textContent=t.again;
   }
-  el("next").addEventListener("click",function(){
-    if(idx===Q.length-1){renderResult();return;}
-    idx++;answered=false;renderQ(false);
-  });
-  el("again").addEventListener("click",function(){
-    idx=0;score=0;answered=false;
+  function restart(){
+    newOrder();idx=0;score=0;answered=false;
     el("result").classList.add("hide");
     el("quiz").classList.remove("hide");
     renderQ(false);
+  }
+  el("next").addEventListener("click",function(){
+    if(idx===PER_RUN-1){renderResult();return;}
+    idx++;answered=false;renderQ(false);
   });
+  el("again").addEventListener("click",restart);
   el("copy").addEventListener("click",function(){
     var url="https://makuri.eu/words/level-test", t=I18N[lang], b=el("copy");
     function done(){b.textContent=t.copied;setTimeout(function(){b.textContent=t.copy;},1600);}
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(done,function(){fallback();});
-    }else{fallback();}
     function fallback(){
       var ta=document.createElement("textarea");ta.value=url;document.body.appendChild(ta);
       ta.select();try{document.execCommand("copy");done();}catch(e){}
       document.body.removeChild(ta);
     }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done,function(){fallback();});
+    }else{fallback();}
   });
   el("btn-ru").addEventListener("click",function(){setLang("ru");});
   el("btn-uk").addEventListener("click",function(){setLang("uk");});
-  setLang("ru");renderQ(false);
+  newOrder();setLang("ru");renderQ(false);
 })();
 </script>
 </body>

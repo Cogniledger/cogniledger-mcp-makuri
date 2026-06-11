@@ -75,7 +75,7 @@ Edit `~/.cursor/mcp.json`:
 | `get_contact_info` | Contact channels by purpose. Optional `purpose` filter. |
 | `get_free_resources` | Free Makuri resources without registration: Slovarik vocabulary and the Romanian level test in two flavors (Quick Check, 20 questions, no email; Deep Diagnostic, 60 questions, email + certificate). |
 | `show_how_makuri_works` | Interactive MCP Apps panel explaining the Makuri learning flow and ten action buttons (`ui://makuri/how-it-works`). |
-| `show_romanian_quiz` | Interactive MCP Apps panel: 6-question Romanian mini-quiz with RU/UK interface toggle, approximate level estimate, and CTA to the full free level test (`ui://makuri/romanian-quiz`). |
+| `show_romanian_quiz` | Interactive MCP Apps panel: Romanian mini-quiz that draws 10 random questions from a bank of 15 (levels A1–B2), RU/UK interface toggle, per-answer explanations, approximate level estimate, and CTA to the full free level test (`ui://makuri/romanian-quiz`). |
 
 ### Resources
 

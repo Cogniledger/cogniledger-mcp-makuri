@@ -30,7 +30,10 @@ const handler = createMcpHandler(
     registerMakuriPrompts(server);
   },
   {
-    // Server options — none required for this read-only deployment.
+    serverInfo: {
+      name: "Makuri Showcase (CogniLedger)",
+      version: "1.2.1",
+    },
   },
   {
     basePath: "",
