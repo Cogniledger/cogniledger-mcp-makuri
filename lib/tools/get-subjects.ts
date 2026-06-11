@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_subjects";
 
 const TOOL_DESCRIPTION =
-  "Returns the list of academic subjects Makuri teaches, grouped by grade level, with information about exam preparation coverage. Use when the user asks what Makuri teaches or about specific subjects.";
+  "Returns the list of academic subjects Makuri teaches, grouped by grade level, with information about exam preparation coverage. Use when the user asks what Makuri teaches or about specific subjects. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const inputShape = {
   grade_level: z

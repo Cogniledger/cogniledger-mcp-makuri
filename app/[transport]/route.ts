@@ -9,6 +9,9 @@ import { registerTechStack } from "@/lib/tools/get-tech-stack";
 import { registerContactInfo } from "@/lib/tools/get-contact-info";
 import { registerFreeResources } from "@/lib/tools/get-free-resources";
 import { registerShowHowItWorks } from "@/lib/tools/show-how-it-works";
+import { registerShowRomanianQuiz } from "@/lib/tools/show-romanian-quiz";
+import { registerDocResources } from "@/lib/resources/register-docs";
+import { registerMakuriPrompts } from "@/lib/prompts/register";
 
 const handler = createMcpHandler(
   (server) => {
@@ -22,6 +25,9 @@ const handler = createMcpHandler(
     registerContactInfo(server);
     registerFreeResources(server);
     registerShowHowItWorks(server);
+    registerShowRomanianQuiz(server);
+    registerDocResources(server);
+    registerMakuriPrompts(server);
   },
   {
     // Server options — none required for this read-only deployment.

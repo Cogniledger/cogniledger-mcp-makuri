@@ -193,11 +193,9 @@ export type RegulationId =
   | "iso_42001";
 
 export type ComplianceStatus =
-  | "compliant"
-  | "in_progress"
+  | "design_aligned_unaudited"
   | "not_started"
-  | "not_applicable"
-  | "partially_compliant";
+  | "not_applicable";
 
 export interface Regulation {
   id: RegulationId;
@@ -215,6 +213,7 @@ export interface ComplianceData {
   disclaimer: string;
   operator: string;
   operator_jurisdiction: string;
+  audit_status: string;
   certifications_held: string[];
   certifications_pursued: string[];
   mvp_note: string;

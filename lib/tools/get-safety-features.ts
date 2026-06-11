@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_safety_features";
 
 const TOOL_DESCRIPTION =
-  "Returns information about safety features on Makuri, including age verification, content filtering, parental controls, and AI safety guardrails. Use when the user asks about child safety, content moderation, or how Makuri protects minors.";
+  "Returns information about safety features on Makuri, including age verification, content filtering, parental controls, and AI safety guardrails. Use when the user asks about child safety, content moderation, or how Makuri protects minors. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const UI_URI = "ui://makuri/how-it-works";
 const TOOL_META = {

@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_pricing_tiers";
 
 const TOOL_DESCRIPTION =
-  "Returns Makuri's pricing plans including what's included in each tier and any usage limits. Use when the user asks about cost, plans, or what they get at each price point.";
+  "Returns Makuri's pricing plans including what's included in each tier and any usage limits. Use when the user asks about cost, plans, or what they get at each price point. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const UI_URI = "ui://makuri/how-it-works";
 const TOOL_META = {

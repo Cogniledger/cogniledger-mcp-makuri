@@ -1,6 +1,6 @@
 # CogniLedger MCP Server — Makuri showcase
 
-A public, read-only [Model Context Protocol](https://modelcontextprotocol.io) server operated by **CogniLedger Solutions S.R.L.** (Bucharest, Romania). It exposes structured metadata about the **Makuri** EdTech platform — nine tools covering mission, languages, teaching approach, pricing, safety, compliance posture, tech stack, contact channels, and free public learning resources.
+A public, read-only [Model Context Protocol](https://modelcontextprotocol.io) server operated by **CogniLedger Solutions S.R.L.** (Bucharest, Romania). It exposes structured metadata about the **Makuri** EdTech platform — 11 tools (9 info tools + 2 interactive MCP Apps panels), 3 markdown resources, and 2 guided prompts, covering mission, languages, teaching approach, pricing, safety, compliance posture, tech stack, contact channels, and free public learning resources.
 
 This is a reference deployment demonstrating production MCP patterns under EU compliance constraints. Makuri is a High Risk AI system under EU AI Act Annex III, paragraph 3 (educational AI for minors); the v1 scope of this server is therefore deliberately narrow: **metadata only, no user data, no PII, no aggregated analytics**.
 
@@ -12,7 +12,8 @@ This is a reference deployment demonstrating production MCP patterns under EU co
 ## What this server is
 
 - Public, unauthenticated, read-only
-- Nine tools returning static metadata (no database queries against user data)
+- 11 tools returning static metadata (no database queries against user data), including 2 interactive MCP Apps panels that render inline in supporting hosts
+- 3 markdown resources (manifesto, child-safety overview, connect guide) and 2 guided prompts
 - Designed to be called by AI assistants — Claude Desktop, Le Chat (Mistral), Cursor, ChatGPT Apps SDK, and any other MCP-capable client
 
 ## What this server is not
@@ -36,7 +37,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
 }
 ```
 
-Restart Claude Desktop. The nine tools appear under the connector picker.
+Restart Claude Desktop. The tools appear under the connector picker.
 
 ### Le Chat (Mistral)
 
@@ -72,7 +73,26 @@ Edit `~/.cursor/mcp.json`:
 | `get_compliance_matrix` | EU AI Act, GDPR, GDPR-K, COPPA, ISO 42001 — current status with disclaimer. Optional `regulation` filter. |
 | `get_tech_stack` | Frontend, backend, database, AI providers, EU data residency. |
 | `get_contact_info` | Contact channels by purpose. Optional `purpose` filter. |
-| `get_free_resources` | Free Makuri resources without registration: Slovarik vocabulary and Romanian level test (ILR methodology, CEFR A1–C1+). |
+| `get_free_resources` | Free Makuri resources without registration: Slovarik vocabulary and the Romanian level test in two flavors (Quick Check, 20 questions, no email; Deep Diagnostic, 60 questions, email + certificate). |
+| `show_how_makuri_works` | Interactive MCP Apps panel explaining the Makuri learning flow and ten action buttons (`ui://makuri/how-it-works`). |
+| `show_romanian_quiz` | Interactive MCP Apps panel: 6-question Romanian mini-quiz with RU/UK interface toggle, approximate level estimate, and CTA to the full free level test (`ui://makuri/romanian-quiz`). |
+
+### Resources
+
+The server exposes three markdown documents via MCP `resources/list` / `resources/read`:
+
+- `makuri://docs/manifesto` — the founder-written manifesto on why Makuri exists.
+- `makuri://docs/safety-overview` — child-safety design measures (account model, data minimization, AI behavior controls).
+- `makuri://docs/connect-guide` — how to connect this server in ChatGPT, Claude, and Le Chat.
+
+(The two interactive panels above are also exposed as resources at `ui://makuri/how-it-works` and `ui://makuri/romanian-quiz`, for hosts that support MCP Apps.)
+
+### Prompts
+
+Two guided prompts via `prompts/list`:
+
+- `evaluate_makuri_for_my_child(child_age, native_language)` — guided fit evaluation for a specific child.
+- `makuri_safety_briefing()` — honest safety briefing with explicit "design posture, not certified compliance" framing.
 
 Full input schemas and example responses: [`docs/TOOLS.md`](./docs/TOOLS.md). Real client transcripts: [`docs/EXAMPLES.md`](./docs/EXAMPLES.md). Compliance disclosure: [`docs/COMPLIANCE_DISCLOSURE.md`](./docs/COMPLIANCE_DISCLOSURE.md).
 
@@ -105,7 +125,7 @@ The smoke test connects to the local server, lists tools, calls each one, and ex
 npx @modelcontextprotocol/inspector
 ```
 
-Connect with transport `streamable-http` to `http://localhost:3000/mcp`. All nine tools should be visible and callable.
+Connect with transport `streamable-http` to `http://localhost:3000/mcp`. All 11 tools should be visible and callable, plus the 5 resources and 2 prompts.
 
 ## Security and compliance
 

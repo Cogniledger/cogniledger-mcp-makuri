@@ -16,10 +16,10 @@ export const freeResourcesData: FreeResourcesData = {
       content_languages: ["ro", "ru", "uk"],
     },
     {
-      name: "Romanian Level Test",
+      name: "Romanian Level Test — Quick Check",
       type: "language_assessment",
       description:
-        "20-question Romanian language level test based on Institutul Limbii Române (ILR) methodology. Returns CEFR level (A1–C1+) with breakdown by skill (grammar, vocabulary, reading). Optional email submission for a personal study plan.",
+        "Fast 20-question Romanian placement test. Instant CEFR level estimate (A1–C1+) with breakdown by skill — no email, no registration.",
       url: "https://makuri.eu/words/level-test",
       auth_required: false,
       price: "free",
@@ -29,9 +29,24 @@ export const freeResourcesData: FreeResourcesData = {
       levels_covered: ["A1", "A2", "B1", "B2", "C1+"],
       skills_covered: ["grammar", "vocabulary", "reading"],
       ui_languages: ["ru", "uk"],
-      roadmap:
-        "Personal named certificates will be generated for completed tests (planned)",
+      roadmap: "Question bank refreshed periodically.",
+    },
+    {
+      name: "Romanian Level Test — Deep Diagnostic",
+      type: "language_assessment",
+      description:
+        "In-depth 60-question Romanian diagnostic. Detailed CEFR result (A1–C1+) with per-skill breakdown and a personal certificate, delivered by email (email required for results).",
+      url: "https://makuri.eu/words/level-test",
+      auth_required: false,
+      price: "free",
+      methodology: "Institutul Limbii Române (ILR)",
+      framework: "CEFR (Council of Europe)",
+      questions: 60,
+      levels_covered: ["A1", "A2", "B1", "B2", "C1+"],
+      skills_covered: ["grammar", "vocabulary", "reading"],
+      ui_languages: ["ru", "uk"],
+      roadmap: "Personal named certificates for completed tests.",
     },
   ],
-  last_updated: "2026-05-19",
+  last_updated: "2026-06-10",
 };

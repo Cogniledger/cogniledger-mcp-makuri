@@ -1,6 +1,6 @@
 {
   "name": "cogniledger-mcp-makuri",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": false,
   "description": "CogniLedger MCP Server — public read-only MCP server exposing metadata about the Makuri EdTech platform. Reference deployment for production MCP under EU compliance constraints.",
   "license": "MIT",

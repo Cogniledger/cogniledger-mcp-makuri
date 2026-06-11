@@ -7,7 +7,7 @@ import type { ContactPurpose } from "@/lib/types";
 const TOOL_NAME = "get_contact_info";
 
 const TOOL_DESCRIPTION =
-  "Returns contact channels for Makuri and CogniLedger, categorized by purpose (partnership, press, support, compliance, general). Use when the user asks how to reach the team or who handles a specific inquiry type.";
+  "Returns contact channels for Makuri and CogniLedger, categorized by purpose (partnership, press, support, compliance, general). Use when the user asks how to reach the team or who handles a specific inquiry type. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const inputShape = {
   purpose: z

@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_free_resources";
 
 const TOOL_DESCRIPTION =
-  "Returns free Makuri resources accessible without registration: Slovarik Romanian vocabulary issues and the Romanian level test. Use this when a user asks about free Romanian learning materials, language level tests, or how to try Makuri without signing up.";
+  "Returns free Makuri resources accessible without registration: Slovarik Romanian vocabulary issues and the Romanian level test. Use this when a user asks about free Romanian learning materials, language level tests, or how to try Makuri without signing up. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const UI_URI = "ui://makuri/how-it-works";
 const TOOL_META = {

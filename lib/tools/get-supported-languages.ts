@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_supported_languages";
 
 const TOOL_DESCRIPTION =
-  "Returns the list of languages supported by Makuri, with separate coverage details for user interface versus AI tutor interactions. Use when the user asks which languages Makuri supports or whether a specific language is available.";
+  "Returns the list of languages supported by Makuri, with separate coverage details for user interface versus AI tutor interactions. Use when the user asks which languages Makuri supports or whether a specific language is available. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const inputShape = {
   locale: z

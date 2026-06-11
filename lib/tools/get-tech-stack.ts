@@ -6,7 +6,7 @@ import { logToolCall } from "@/lib/logging";
 const TOOL_NAME = "get_tech_stack";
 
 const TOOL_DESCRIPTION =
-  "Returns the technical stack Makuri is built on, including frontend, backend, database, AI providers used, and data residency information. Use when the user asks how Makuri is built or which AI models it uses.";
+  "Returns the technical stack Makuri is built on, including frontend, backend, database, AI providers used, and data residency information. Use when the user asks how Makuri is built or which AI models it uses. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const UI_URI = "ui://makuri/how-it-works";
 const TOOL_META = {

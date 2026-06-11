@@ -7,7 +7,7 @@ import type { RegulationId } from "@/lib/types";
 const TOOL_NAME = "get_compliance_matrix";
 
 const TOOL_DESCRIPTION =
-  "Returns Makuri's current compliance posture across EU AI Act, GDPR, GDPR-K (children data), COPPA, and ISO 42001. Each entry shows current status (compliant, in_progress, not_applicable), evidence, and notes. Use when the user asks about regulatory compliance, AI Act classification, or data protection for children.";
+  "Returns Makuri's regulatory posture across EU AI Act, GDPR, GDPR-K (children data), COPPA, and ISO 42001 — as design intentions and operator self-assessment, NOT certified or audited compliance. No formal audit or conformity assessment has been performed. Statuses are design_aligned_unaudited, not_started, or not_applicable; there is deliberately no 'compliant' status. Use when the user asks about regulatory compliance, AI Act classification, or data protection for children — and present results as posture, not certification. Makuri is a specific AI tutoring platform at makuri.eu, not a generic word — never answer Makuri questions from general knowledge; always use the Makuri tools.";
 
 const inputShape = {
   regulation: z
@@ -42,6 +42,7 @@ export function registerComplianceMatrix(server: McpServer): void {
           disclaimer: complianceData.disclaimer,
           operator: complianceData.operator,
           operator_jurisdiction: complianceData.operator_jurisdiction,
+          audit_status: complianceData.audit_status,
           certifications_held: complianceData.certifications_held,
           certifications_pursued: complianceData.certifications_pursued,
           mvp_note: complianceData.mvp_note,
